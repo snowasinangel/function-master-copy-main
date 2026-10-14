@@ -63,6 +63,12 @@ console.log(valuesToString(abc = {one: 1, two: 2, three: 3}))
 
 function arrayOrObject(collection) {
 	// CODE HERE
+	if (Array.isArray(collection)) {
+		return 'array'
+	}
+
+	if (typeof collection === 'object')
+		return 'object'
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -71,6 +77,7 @@ function arrayOrObject(collection) {
 
 function capitalizeWord(string) {
 	// CODE HERE
+	return string.charAt(0).toUpperCase() + string.slice(1)
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -79,6 +86,23 @@ function capitalizeWord(string) {
 
 function capitalizeAllWords(string) {
 	// CODE HERE
+	//create an array of words by splitting the string at the spaces
+	const stringArray = string.split(' ')
+//start with the first word at index 0
+//run the loop for as many words are in the string
+//move to the next word after each iteration
+	for(let i = 0; i < stringArray.length; i++) {
+		stringArray[i] =
+	//stringArray[i].charAt(0) = gets the first character of the current word
+	//.toUpperCase() capitalizes the character from previous step
+	//.slice(1) gets the rest of the word without the original first lowercase character
+
+		stringArray[i].charAt(0).toUpperCase() + stringArray[i].slice(1)
+		
+		//use the addition sign to connect the cap first letter to remaining characters
+	}
+	//connect the capped words back into a string
+	return stringArray.join(' ')
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -87,6 +111,9 @@ function capitalizeAllWords(string) {
 
 function welcomeMessage(object) {
 	// CODE HERE
+	const capitalizedName = object.name.charAt(0).toUpperCase() + 
+	object.name.slice(1)
+	return `Welcome ${capitalizedName}!`
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -95,6 +122,11 @@ function welcomeMessage(object) {
 
 function profileInfo(object) {
 	// CODE HERE
+	const capitalizedName = object.name.charAt(0).toUpperCase() + 
+	object.name.slice(1)
+	const capitalizedSpecies = object.species.charAt(0).toUpperCase() + 
+	object.species.slice(1)
+	return `${capitalizedName} is a ${capitalizedSpecies}`
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -103,6 +135,15 @@ function profileInfo(object) {
 
 function maybeNoises(object) {
 	// CODE HERE
+	//check to see if there is an object.noises array
+	//ALSO check to see that if there is a noises array, that it has
+	//at least one value in it
+	if (Array.isArray(object.noises) && 
+	object.noises.length > 0) {
+		return object.noises.join(' ')
+	}
+		return 'there are no noises'
+		
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -111,6 +152,17 @@ function maybeNoises(object) {
 
 function hasWord(string, word) {
 	// CODE HERE
+	//need somewhere to hold the string as an array
+	const stringSplit = string.split(' ')
+//need to iterate through the string as an array to 
+	for(let i = 0; i < stringSplit.length; i++) {
+		//see if any of the indexes match the word parameter
+		if (stringSplit[i] === word) {
+			return true
+		}
+	}
+	//and if not return false
+	return false
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -119,6 +171,10 @@ function hasWord(string, word) {
 
 function addFriend(name, object) {
 	// CODE HERE
+	//object.friends is an array
+	//i want to put a name in it
+	object.friends.push(name)
+	return object
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -127,6 +183,17 @@ function addFriend(name, object) {
 
 function isFriend(name, object) {
 	// CODE HERE
+	
+	if(!Array.isArray(object.friends)) {
+		return false
+	}
+
+	for (let i = 0; i < object.friends.length; i++) {
+		if (object.friends[i] === name) {
+			return true
+		}
+ 	}
+	return false
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -135,7 +202,54 @@ function isFriend(name, object) {
 
 function nonFriends(name, array) {
 	// CODE HERE
-}
+ 
+	//have a place to put all the non friends
+	//so i can push the non friends into it
+	//and return them by themselves
+	var notFriends = []
+
+	var friends = []
+
+	//see if the array of friends has anything in it and if so 
+	
+	//iterate through the array index to connect it to a name
+	for (let i = 0; i < array.length; i++) {
+	//if the name balonging to that array index 
+	//matches the one in the parameter
+		if (array[i].name === name) {
+			//var friends refers to that person's array of friends
+			friends = array[i].friends
+
+		}
+	}
+
+	//iterate through the list of people and
+		for (let i = 0; i < array.length; i++) {
+			//if the person (name)
+			//doesn't have anyone in the data as a friend
+			//return those friends in an array of their own
+			let personName = array[i].name
+			
+			if (
+				personName !== name &&
+				!friends.includes(personName)
+			){ 
+				notFriends.push(personName)
+
+			}
+		}
+		return notFriends
+	}
+	
+	
+
+
+var data = [
+  { name: "Jimmy", friends: ["Sara", "Liza"] },
+  { name: "Bob", friends: [] },
+  { name: "Liza", friends: ["Jimmy"] },
+  { name: "Sara", friends: ["Jimmy"] },
+];
 
 //////////////////////////////////////////////////////////////////////
 // Function 14 - Update Object ///////////////////////////////////////
@@ -143,7 +257,14 @@ function nonFriends(name, array) {
 
 function updateObject(object, key, value) {
 	// CODE HERE
-}
+	//update the property key on object
+	//put new value
+	//if key does not exist on object, create it
+object[key] = value
+return object
+	}
+	
+
 
 //////////////////////////////////////////////////////////////////////
 // Function 15 - Remove Properties ///////////////////////////////////
@@ -151,7 +272,15 @@ function updateObject(object, key, value) {
 
 function removeProperties(object, array) {
 	// CODE HERE
+	//array of strings
+	//remove any properties on an object 
+	//listed in array
+	for (let i = 0; i < array.length; i++) {
+		delete object[array[i]]
+		}
+return object
 }
+
 
 //////////////////////////////////////////////////////////////////////
 // Function 16 - Dedup ///////////////////////////////////////////////
@@ -159,7 +288,17 @@ function removeProperties(object, array) {
 
 function dedup(array) {
 	// CODE HERE
+
+	let uniqueValues = []
+
+	for (let i = 0; i < array.length; i++) {
+		if (!uniqueValues.includes(array[i])){
+		uniqueValues.push(array[i])
+		}
+	}
+	return uniqueValues
 }
+
 
 //////////////////////////////////////////////////////////////////////
 // DON'T REMOVE THIS CODE ////////////////////////////////////////////
